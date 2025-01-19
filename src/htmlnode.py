@@ -35,9 +35,9 @@ class LeafNode(HTMLNode):
     def __init__(self, value, tag=None, props=None):
         # Default props to an empty dictionary if not provided
         props = props or {}
-        super().__init__(tag=tag, value=value, children=[], props=props)
         if not value:
             raise ValueError("LeafNode requires a non-empty value.")
+        super().__init__(tag=tag, value=value, children=[], props=props)
         
     def to_html(self):
     # Generate the string for the tag's properties
@@ -50,3 +50,20 @@ class LeafNode(HTMLNode):
             return f"<{self.tag}>{self.value}</{self.tag}>"
         
         return f"<{self.tag} {props_str}>{self.value}</{self.tag}>"
+
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props=None):
+        if not tag:
+            raise ValueError("Parent Node should have a Tag.")
+        if children is None or not isinstance(children,list):
+            raise ValueError("Parent Node Children shouldn't be empty.")  
+        super().__init__(tag, children=children, props=props if props is not None else {},value=None)
+        
+    def to_html(self):
+        props_str = " ".join(f'{key}="{value}"' for key, value in self.props.items())
+        children_html = "".join(child.to_html() for child in self.children)
+
+        if props_str:
+            return f"<{self.tag} {props_str}>{children_html}</{self.tag}>"
+        return f"<{self.tag}>{children_html}</{self.tag}>"
