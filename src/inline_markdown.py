@@ -17,11 +17,19 @@ def text_node_to_html_node(text_node):
         return LeafNode(tag="img",value= "", props={"src": text_node.url, "alt": text_node.text})
     raise ValueError(f"Invalid text type: {text_node.text_type}")
 
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.NORMAL)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
 
 def split_nodes_image(old_nodes):
     new_nodes = []
     for old_node in old_nodes:
-        if old_node.text_type != TextType.TEXT:
+        if old_node.text_type != TextType.NORMAL:
             new_nodes.append(old_node)
             continue
         original_text = old_node.text
@@ -34,7 +42,7 @@ def split_nodes_image(old_nodes):
             if len(sections) != 2:
                 raise ValueError("Invalid markdown, image section not closed")
             if sections[0] != "":
-                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+                new_nodes.append(TextNode(sections[0], TextType.NORMAL))
             new_nodes.append(
                 TextNode(
                     image[0],
@@ -44,7 +52,7 @@ def split_nodes_image(old_nodes):
             )
             original_text = sections[1]
         if original_text != "":
-            new_nodes.append(TextNode(original_text, TextType.TEXT))
+            new_nodes.append(TextNode(original_text, TextType.NORMAL))
     return new_nodes
 
 
