@@ -56,7 +56,25 @@ class TestInlineMD(unittest.TestCase):
         expected = [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")]
         
         self.assertEqual(result,expected)
-        
+    
+    def test_split_links(self):
+        node = TextNode(
+            "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev) with text that follows",
+            TextType.NORMAL,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.NORMAL),
+                TextNode("link", TextType.LINK, "https://boot.dev"),
+                TextNode(" and ", TextType.NORMAL),
+                TextNode("another link", TextType.LINK,
+                         "https://blog.boot.dev"),
+                TextNode(" with text that follows", TextType.NORMAL),
+            ],
+            new_nodes,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
