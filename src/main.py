@@ -1,14 +1,35 @@
 from textnode import TextNode, TextType
 from htmlnode import LeafNode
-print("hello world")
+from copy_static import copy_files_recursive
+
+import os
+import shutil
+
+
+
+dir_path_static = "./static"
+dir_path_public = "./public"
+dir_path_content = "./content"
+template_path = "./template.html"
 
 
 def main():
-    dummy = TextNode("this is a text node", "bold", "https://github.com")
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+        shutil.rmtree(dir_path_public)
+
+    print("Copying static files to public directory...")
+    copy_files_recursive(dir_path_static, dir_path_public)
+
+    print("Generating content...")
+
+
+
+    # dummy = TextNode("this is a text node", "bold", "https://github.com")
     
-    if dummy.text_type.value == "bold":
-        print(dummy.text)
-        print("It is bold")
+    # if dummy.text_type.value == "bold":
+    #     print(dummy.text)
+    #     print("It is bold")
     # print(dummy.__repr__())
 
 # def text_node_to_html_node(textNode):
@@ -32,3 +53,4 @@ def main():
 
 
   
+main()
