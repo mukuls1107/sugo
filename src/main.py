@@ -1,7 +1,7 @@
 from textnode import TextNode, TextType
 from htmlnode import LeafNode
 from copy_static import copy_files_recursive
-
+from generate_content import generate_pages_recursive
 import os
 import shutil
 
@@ -20,8 +20,9 @@ def main():
 
     print("Copying static files to public directory...")
     copy_files_recursive(dir_path_static, dir_path_public)
-
+    generate_pages_recursive
     print("Generating content...")
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public)
 
 
 

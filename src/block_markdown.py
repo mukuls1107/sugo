@@ -12,19 +12,36 @@ class BlockType(Enum):
 
 
 def markdown_to_blocks(markdown):
-    fileName = markdown
-    
-   
-    final_content = fileName.split("\n")
-    # print(final_content)
-    for each in final_content:
-        if each == "":
-            final_content.remove(each)
+    if not markdown:
+        return []
+        
+    lines = markdown.strip().split("\n")
+    blocks = []
+    current_block = []
 
-        # print(final_content)
-        # print(type(content))
-    return final_content
+    for line in lines:
+        if line.strip() == "":
+            if current_block:
+                block_content = "".join(current_block).strip()
+                if block_content:
+                    blocks.append(block_content)
+                current_block = []
+        else:
+            current_block.append(line)
 
+    # Handle last block
+    if current_block:
+        block_content = "".join(current_block).strip()
+        if block_content:
+            blocks.append(block_content)
+
+    # Additional validation
+    filtered_blocks = []
+    for block in blocks:
+        if block.strip():
+            filtered_blocks.append(block)
+
+    return filtered_blocks
 
 
 def block_to_block_type(block):
@@ -103,19 +120,33 @@ def block_to_html_code(block):
 
 
 def text_to_children(text):
+    if not text or not text.strip():
+        return []
+        
     text_nodes = text_to_textnodes(text)
     children = []
     for text_node in text_nodes:
-        html_node = text_node_to_html_node(text_node)
-        children.append(html_node)
+        if text_node.text and text_node.text.strip():
+            html_node = text_node_to_html_node(text_node)
+            if html_node:
+                children.append(html_node)
     return children
 
 
         
 def paragraph_to_html_node(block):
+    if not block or not block.strip():
+        return None
+        
     lines = block.split("\n")
-    paragraph = " ".join(lines)
+    paragraph = " ".join(line.strip() for line in lines if line.strip())
+    if not paragraph:
+        return None
+        
     children = text_to_children(paragraph)
+    if not children:
+        return None
+        
     return ParentNode("p", children)
 
 
