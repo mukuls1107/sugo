@@ -23,7 +23,7 @@ Sugo (Japanese for "straight-forward") is your go-to tool for creating clean, st
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/sugo.git
+git clone https://github.com/mukuls1107/sugo
 
 # Run the generator
 python3 src/main.py
