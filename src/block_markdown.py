@@ -1,5 +1,5 @@
 from enum import Enum
-from htmlnode import ParentNode, HTMLNode
+from htmlnode import ParentNode, HTMLNode, LeafNode
 from inline_markdown import text_to_textnodes,text_node_to_html_node
 
 class BlockType(Enum):
@@ -120,11 +120,13 @@ def block_to_html_code(block):
 
 
 def text_to_children(text):
-    if not text or not text.strip():
+    text = text.strip()
+    if not text:
         return []
-        
+    
     text_nodes = text_to_textnodes(text)
     children = []
+    
     for text_node in text_nodes:
         if text_node.text and text_node.text.strip():
             html_node = text_node_to_html_node(text_node)
@@ -135,11 +137,10 @@ def text_to_children(text):
 
         
 def paragraph_to_html_node(block):
-    if not block or not block.strip():
-        return None
-        
     lines = block.split("\n")
-    paragraph = " ".join(line.strip() for line in lines if line.strip())
+    paragraph = " ".join(line.strip() for line in lines)
+    paragraph = paragraph.strip()
+    
     if not paragraph:
         return None
         
@@ -167,10 +168,18 @@ def heading_to_html_node(block):
 def code_to_html_node(block):
     if not block.startswith("```") or not block.endswith("```"):
         raise ValueError("Invalid code block")
-    text = block[4:-3]
-    children = text_to_children(text)
-    code = ParentNode("code", children)
-    return ParentNode("pre", [code])
+    
+    # Extract language if specified
+    lines = block.split("\n")
+    lang = lines[0][3:].strip()
+    
+    # Get code content
+    code = "\n".join(lines[1:-1])
+    
+    code_node = LeafNode(code, "code")
+    if lang:
+        return ParentNode("pre", [code_node], {"class": f"language-{lang}"})
+    return ParentNode("pre", [code_node])
 
 
 def olist_to_html_node(block):

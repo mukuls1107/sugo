@@ -1,40 +1,81 @@
-# About Me
+<!-- ---
+title: "Introducing Sugo: A Minimal Static Site Generator"
+date: "2025-02-10"
+author: "Mukul Singh"
+description: "Learn how to use Sugo, a simple and fast static site generator for your projects."
+--- -->
 
-Hello! My name is **Mukul Singh**, and I’m a passionate developer and instructor. My journey in technology is fueled by a love for coding and a desire to share knowledge with others.  
+# **Introducing Sugo: A Minimal Static Site Generator**
 
-## My Expertise
+Static site generators (SSGs) have gained popularity for their simplicity, speed, and security. Meet **Sugo**, a lightweight and developer-friendly static site generator designed to help you build blazing-fast websites with minimal effort. Whether you're creating a blog, documentation site, or personal portfolio, Sugo makes the process seamless.
 
-- **Programming Languages**:  
-  I specialize in **Python**, **JavaScript**, **C**, and **Java**, with a focus on **backend development**.  
-  Currently, I’m exploring frameworks like **Django** to build scalable web applications.  
+## **Why Use Sugo?**
+- **Minimal and Fast** – No unnecessary bloat, just what you need.
+- **Markdown-Based** – Write content in Markdown and generate beautiful static pages.
+- **Easy to Use** – Simple CLI commands to generate and deploy sites.
+- **Customizable Themes** – Modify styles and layouts effortlessly.
 
-- **Teaching Experience**:  
-  I take pride in teaching **Python** to students who are new to programming. Recently, I’ve taught concepts like loops, functions, dictionaries, and lists to young learners.  
+## **Getting Started**
 
-## My Goals for 2025
+### **1. Installation**
+To install Sugo, simply run:
+```sh
+pip install sugo  
+```
 
-1. **Backend Developer**:  
-   My goal is to excel as a backend developer and create robust, efficient systems.  
 
-2. **Growth as an Instructor**:  
-   I aim to inspire more students and help them become confident programmers.  
+### **2. Creating a New Project**
+Once installed, create a new Sugo project:
+```sh
+sugo init my-site
+cd my-site
+```
+This will set up the basic folder structure for your site.
 
-3. **Personal Growth**:  
-   Alongside my professional goals, I’m working on my fitness and pursuing a balanced lifestyle.  
-
-## Current Projects
-
-- **Discord Bots**:  
-  I enjoy creating engaging bots for communities. Currently, I’m working on a **collectible card game bot** with unique features like card fusion.  
-
-- **Memory Game**:  
-  A fun **Naruto-themed game** featuring chakra symbols and ninja ranks.  
-
-## Fun Facts About Me
-
-- I enjoy experimenting with **aesthetic web designs** and **cinematic visuals** for code-related content.  
-- I believe in balancing professional ambitions with personal aspirations.  
-
+### **3. Writing Your First Blog Post**
+Navigate to the `content/` directory and create a Markdown file:
+```sh
+mkdir content
+nano content/my-first-post.md
+```
+Inside the file, add:
+```md
+---
+title: "My First Blog Post"
+date: "2025-02-10"
+author: "Mukul Singh"
 ---
 
-Feel free to connect with me if you're passionate about coding or looking to collaborate on exciting projects!  
+Welcome to my first post using Sugo! This is a simple static site generator.
+```
+
+### **4. Generating the Site**
+To generate the static site, run:
+```sh
+sugo build
+```
+This will process your Markdown files and generate HTML in the `output/` directory.
+
+### **5. Previewing the Site**
+Run the local development server:
+```sh
+sugo serve
+```
+Open your browser and go to `http://localhost:8000` to see your site in action!
+
+### **6. Deploying Your Site**
+You can deploy the `output/` folder to GitHub Pages, Netlify, Vercel, or any static hosting service.
+For example, using GitHub Pages:
+```sh
+git init
+git add .
+git commit -m "Deploy my Sugo site"
+git push origin main
+```
+
+## **Conclusion**
+Sugo is a simple yet powerful tool for generating static websites. Whether you're a beginner or an advanced developer, its minimalistic approach makes it easy to use and extend. Try it out today and start building your own static websites effortlessly!
+
+Follow us on our social pages to stay updated!
+### [X](https://twitter.com/mukulownsyou)
+### [Instagram](https://instagram.com/mukulownsyou)

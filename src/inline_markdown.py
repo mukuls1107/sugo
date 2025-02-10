@@ -84,40 +84,34 @@ def split_nodes_link(old_nodes):
 # Split Delimeters 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    # if not isinstance(old_nodes, TextType):
-    #     print("not a normal text-type")
-    #     return old_nodes
-    
-    # splited =str(old_nodes.text).split(delimiter)
-    
-    # for i, part in enumerate(splited):
-    #     print(i,part)
-    
-    # print(splited)
-    
-    if old_nodes[0].text_type != TextType.NORMAL:
-        print("Not a Normal TextType")
-        return
-    
     new_nodes = []
     for node in old_nodes:
-        if node.text_type == TextType.NORMAL:
-            parts = node.text.split(delimiter)
-            if len(parts) % 2 == 0:
-                raise ValueError(f"Invalid markdown, {text_type} section not closed")
-            for i, part in enumerate(parts):
-                # Alternate between normal text and the specified text_type for delimited parts
+        if node.text_type != TextType.NORMAL:
+            new_nodes.append(node)
+            continue
+
+        # Skip processing if this is a code block with triple backticks
+        if delimiter == "`" and "```" in node.text:
+            new_nodes.append(node)
+            continue
+
+        parts = node.text.split(delimiter)
+        
+        if len(parts) == 1:
+            new_nodes.append(node)
+            continue
+            
+        if len(parts) % 2 == 0:
+            raise ValueError(f"Invalid markdown, {text_type} section not closed")
+            
+        for i, part in enumerate(parts):
+            if part:
                 if i % 2 == 0:
                     new_nodes.append(TextNode(part, TextType.NORMAL))
                 else:
                     new_nodes.append(TextNode(part, text_type))
-        else:
-            # Non-text nodes are added as it iis
-            new_nodes.append(node)
-            
+                    
     return new_nodes
-    
-
 
 # newNode = text_node_to_html_node(node)
 # print(newNode)
